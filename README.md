@@ -1,555 +1,735 @@
-# 🛡️ KAVACH — Predictive Wildlife Conflict & Conservation Intelligence
+# 🛡️ KAVACH — Wildlife Early Warning & Alert Network
 
-> **DETECT • PREDICT • PREVENT**
+> **DETECT • ANALYZE • ALERT • PROTECT**
 
-## 🔗 Project Links
+KAVACH is an AI-powered wildlife monitoring and early-warning platform designed to help detect wildlife activity, monitor potential threats, visualize incidents, and support faster response through a centralized intelligence dashboard.
 
-### 🌐 Live Demo
-
-**https://infinity-hack-git-main-rahul810840-5774s-projects.vercel.app/**
-
-### 📑 Project Presentation
-
-**[View / Download KAVACH Presentation](./TWOPOINTERS.pdf)**
-https://drive.google.com/drive/folders/19C9i02d-Vbh3pFpsOmqYtrDbMT4fEcPh?usp=sharing
----
-
-## 🌍 What is KAVACH?
-
-**KAVACH** is a predictive wildlife conflict and conservation intelligence platform that transforms wildlife observations into **early-warning intelligence**.
-
-It combines:
-
-* 🤖 AI-based wildlife detection
-* 🧠 Machine Learning-based conflict-risk prediction
-* 🗺️ GIS and geospatial analysis
-* 📷 Camera-trap imagery
-* 📊 Historical wildlife and conflict data
-* 🌿 Spatial and environmental context
-
-The goal is not only to identify **what animal was detected**, but to understand:
-
-> **What does this detection mean for future conflict, where is the risk, and where should authorities focus their resources?**
-
-KAVACH moves wildlife monitoring from **reactive incident response** toward **predictive prevention**.
+The platform combines **Computer Vision, FastAPI, real-time monitoring, GIS visualization, device management, and emergency alert workflows** into a single system.
 
 ---
 
-# 🚨 The Problem
+## 🌐 Live Application
 
-Wildlife reserves and forest regions are vast and difficult to monitor continuously.
+### 🚀 KAVACH Frontend
 
-Camera traps and field observations generate valuable information, but the data is often fragmented across:
+**https://kavach-frontend-qkri.onrender.com**
 
-* Camera-trap observations
-* Wildlife sightings
-* GIS information
-* Historical conflict records
-* Environmental conditions
+### ⚙️ KAVACH Backend API
 
-Wildlife movement is also dynamic and influenced by **time, season and environment**.
+**https://kavach-api-i2pt.onrender.com**
 
-Because monitoring resources are limited, delayed intervention can make human-wildlife conflict harder to prevent.
+### 📚 API Health Check
 
-This creates a critical question:
+**https://kavach-api-i2pt.onrender.com**
 
-> **Can we predict where wildlife conflict may happen next instead of reacting after it happens?**
+The production backend currently reports:
+
+* API: Online
+* AI Engine: Online
+* Database: Online
+* YOLO Model: Loaded
+* Device: CPU
+
+---
+
+# 🎯 Project Vision
+
+Wildlife monitoring often involves large geographical areas, camera feeds, field observations, and emergency response systems.
+
+KAVACH aims to bring these components together into one centralized platform.
+
+Instead of relying only on manual monitoring, KAVACH provides an intelligent workflow:
+
+```text
+Wildlife Image / Camera
+          ↓
+    AI Detection
+          ↓
+  Species Identification
+          ↓
+ Threat / Risk Analysis
+          ↓
+   Incident Monitoring
+          ↓
+ GIS / Dashboard
+          ↓
+     Alert System
+          ↓
+   Human Response
+```
+
+The objective is to help monitoring teams identify wildlife activity faster and support timely intervention.
+
+---
+
+# 🚨 Problem Statement
+
+Wildlife and human-wildlife conflict monitoring can become difficult when:
+
+* Large areas need continuous observation
+* Camera-trap data is generated continuously
+* Wildlife sightings need quick verification
+* Important incidents can be missed
+* Monitoring information is distributed across different systems
+* Emergency teams need faster access to incident information
+
+KAVACH addresses this challenge through a centralized wildlife intelligence dashboard.
 
 ---
 
 # 💡 Our Solution
 
-KAVACH connects wildlife detection with historical, spatial and environmental intelligence.
+KAVACH provides a unified platform for:
 
-### Core Pipeline
+### 🤖 AI Wildlife Detection
 
-```text
-Camera Traps
-     ↓
-AI Wildlife Detection
-     ↓
-Context + Historical Data
-     ↓
-Machine Learning Risk Prediction
-     ↓
-Risk Score
-     ↓
-GIS Hotspot Mapping
-     ↓
-Early Action / Alerts
-```
+Detect animals from uploaded images and supported camera inputs using YOLO-based computer vision.
 
-The system converts individual wildlife detections into **predictive, location-specific risk intelligence**.
+### 📷 Detection Hub
+
+Analyze wildlife images and receive AI-generated detection results.
+
+### 🗺️ GIS Hotspot Monitoring
+
+Visualize wildlife incidents and monitoring locations through an interactive map interface.
+
+### 🚨 Alert Management
+
+Provide an alert workflow for detected threats and emergency situations.
+
+### 📱 Mobile Alert Device
+
+Support emergency alert and siren workflows for field-level response.
+
+### 📊 Command Center
+
+Provide a centralized dashboard for monitoring system status, incidents, devices, and AI detections.
 
 ---
 
-# 🤖 1. AI Wildlife Detection
+# 🧠 AI Detection System
 
-KAVACH uses **YOLO / CNN-based Computer Vision** to analyse camera-trap imagery and identify wildlife species.
-
-The detection stage extracts information such as:
-
-* Species
-* Detection timestamp
-* Location
-* Detection information from camera-trap imagery
-
-### Detection Flow
+KAVACH uses a YOLO-based Computer Vision pipeline.
 
 ```text
-Camera-Trap Image
+Input Image
+     ↓
+YOLO Model
+     ↓
+Object Detection
+     ↓
+Confidence Filtering
+     ↓
+Wildlife Classification
+     ↓
+Detection Result
+     ↓
+Alert / Monitoring
+```
+
+The backend performs AI inference through the FastAPI server.
+
+### Current Production Model
+
+The currently deployed model is `best.pt`.
+
+The production API currently exposes support for:
+
+* 🐘 Elephant
+* 🐕 Dog
+
+Other wildlife species are currently marked as unsupported by the deployed model rather than being falsely mapped to another animal.
+
+This behavior is intentional so that unsupported species are not incorrectly reported.
+
+---
+
+# ⚙️ Core Architecture
+
+```text
+                    KAVACH PLATFORM
+                           │
+          ┌────────────────┴────────────────┐
+          │                                 │
+          ▼                                 ▼
+   React + Vite Frontend              FastAPI Backend
+          │                                 │
+          │                                 ▼
+          │                          YOLO AI Engine
+          │                                 │
+          │                                 ▼
+          │                          Detection Service
+          │                                 │
+          │                                 ▼
+          │                            SQLite DB
+          │                                 │
+          └──────────────┬──────────────────┘
+                         │
+                         ▼
+                  Alert / Monitoring
+                         │
+                ┌────────┴────────┐
+                │                 │
+                ▼                 ▼
+          GIS Dashboard      Mobile Alerts
+```
+
+---
+
+# 🏗️ System Components
+
+## 1. 🖥️ Command Center
+
+The Command Center acts as the main monitoring interface.
+
+It provides access to:
+
+* System status
+* AI engine status
+* Active incidents
+* Monitoring devices
+* Detection information
+* Alert status
+* Operational overview
+
+---
+
+## 2. 🤖 Detection Hub
+
+The Detection Hub is responsible for AI-powered wildlife analysis.
+
+Users can provide supported media for analysis and receive:
+
+* Detected object
+* Confidence score
+* Bounding box information
+* Species classification
+* Detection status
+
+The detection engine is powered by YOLO through the backend.
+
+---
+
+## 3. 📷 Camera Monitoring
+
+KAVACH includes a multi-camera monitoring interface designed for wildlife surveillance.
+
+The system can represent multiple camera channels and monitor their status.
+
+The current production deployment is designed around the application architecture; direct access to private/local RTSP CCTV networks requires an appropriate camera gateway or network-accessible camera infrastructure.
+
+---
+
+# 🗺️ GIS Hotspot
+
+KAVACH includes an interactive GIS-based monitoring interface.
+
+The GIS layer is designed to help visualize:
+
+* Wildlife locations
+* Incident locations
+* Monitoring zones
+* Potential hotspots
+* Field activity
+
+The frontend uses map-based visualization to provide geographical context to wildlife incidents.
+
+---
+
+# 🚨 Alert System
+
+KAVACH includes an emergency alert architecture designed to support rapid communication.
+
+The system includes workflows for:
+
+* Test alerts
+* Emergency alerts
+* Device notifications
+* Alert monitoring
+* Siren workflows
+
+The platform is designed around a human-in-the-loop approach where AI provides detection information while authorized users make operational decisions.
+
+---
+
+# 📱 Mobile Alert Device
+
+The Mobile Alert Device interface is designed for field-level response.
+
+Possible actions include:
+
+```text
+AI Detection
+     ↓
+Threat Identified
+     ↓
+Alert Generated
+     ↓
+Field Device
+     ↓
+Siren / Notification
+     ↓
+Human Response
+```
+
+This creates a bridge between AI detection and physical response.
+
+---
+
+# 🔥 Firebase / FCM
+
+KAVACH contains Firebase Cloud Messaging integration for notification workflows.
+
+The intended architecture is:
+
+```text
+KAVACH Backend
+      ↓
+Firebase Cloud Messaging
+      ↓
+Registered Device
+      ↓
+Push Notification
+```
+
+Firebase credentials must be configured securely in the production environment before real FCM notifications can be delivered.
+
+> **Current production status:** Firebase credentials are not configured on the deployed backend yet.
+
+---
+
+# 🗄️ Database
+
+KAVACH currently uses SQLite for application data storage.
+
+The backend initializes and manages the application database.
+
+Example data areas include:
+
+* Detection records
+* Incidents
+* Devices
+* Alerts
+* System information
+
+The architecture can be extended to a production database such as PostgreSQL when required for larger deployments.
+
+---
+
+# 🔌 Backend API
+
+The KAVACH backend is built using **FastAPI**.
+
+Production API:
+
+```text
+https://kavach-api-i2pt.onrender.com
+```
+
+The backend provides endpoints for:
+
+* Health monitoring
+* AI model status
+* Firebase status
+* Wildlife detection
+* Alert workflows
+* Device management
+* Application services
+
+FastAPI also provides interactive API documentation when enabled.
+
+---
+
+# 🖥️ Frontend
+
+The KAVACH dashboard is built using:
+
+* React
+* TypeScript
+* Vite
+* CSS
+* Interactive map components
+* API integration
+
+Production frontend:
+
+```text
+https://kavach-frontend-qkri.onrender.com
+```
+
+The frontend communicates with the FastAPI backend to retrieve AI and monitoring information.
+
+---
+
+# 🛠️ Technology Stack
+
+| Layer                | Technology               |
+| -------------------- | ------------------------ |
+| Frontend             | React                    |
+| Language             | TypeScript / JavaScript  |
+| Build Tool           | Vite                     |
+| Backend              | FastAPI                  |
+| Backend Language     | Python                   |
+| AI / Computer Vision | YOLO                     |
+| Deep Learning        | PyTorch                  |
+| Database             | SQLite                   |
+| Notifications        | Firebase Cloud Messaging |
+| Maps                 | Leaflet / GIS            |
+| API Server           | Uvicorn                  |
+| Deployment           | Render                   |
+| Version Control      | Git + GitHub             |
+
+---
+
+# 📂 Project Structure
+
+```text
+KAVACH-Wildlife-Intelligence/
+│
+├── backend/
+│   ├── predict.py
+│   ├── detection_service.py
+│   ├── best.pt
+│   ├── requirements.txt
+│   └── ...
+│
+├── public/
+│   ├── images/
+│   └── ...
+│
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│   ├── ...
+│   └── ...
+│
+├── package.json
+├── vite.config.*
+├── .gitignore
+└── README.md
+```
+
+---
+
+# 🚀 Running KAVACH Locally
+
+## Prerequisites
+
+Install:
+
+* Node.js
+* Python 3.13
+* Git
+* npm
+
+---
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/Sumant70/KAVACH-Wildlife-Intelligence.git
+```
+
+```bash
+cd KAVACH-Wildlife-Intelligence
+```
+
+---
+
+# 2. Install Frontend Dependencies
+
+```bash
+npm install
+```
+
+---
+
+# 3. Start Frontend
+
+```bash
+npm run dev
+```
+
+The Vite development server will normally run at:
+
+```text
+http://localhost:5173
+```
+
+---
+
+# 4. Install Backend Dependencies
+
+From the project root:
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+---
+
+# 5. Start FastAPI Backend
+
+```bash
+uvicorn predict:app --host 0.0.0.0 --port 8000 --app-dir backend
+```
+
+Backend:
+
+```text
+http://localhost:8000
+```
+
+---
+
+# 6. API Documentation
+
+Once the backend is running:
+
+```text
+http://localhost:8000/docs
+```
+
+FastAPI provides an interactive interface for testing available API endpoints.
+
+---
+
+# ☁️ Production Deployment
+
+KAVACH is deployed using Render.
+
+### Frontend
+
+```text
+React + Vite
        ↓
-YOLO / CNN
+npm run build
        ↓
-Species Detection
+dist/
        ↓
-Species + Timestamp + Location
+Render Static Site
 ```
 
-This creates the first layer of intelligence for the rest of the system.
-
-The technology stack described in the project uses **YOLO/CNN with PyTorch/TensorFlow** for species detection.
-
----
-
-# 🧠 2. Machine Learning Risk Prediction
-
-Detecting an animal is only the first step.
-
-KAVACH combines the detected wildlife information with:
-
-* Historical sightings
-* Historical conflict records
-* Spatial features
-* Temporal features
-* Environmental context
-
-These features are passed into an **XGBoost-based Machine Learning model** to generate a **conflict risk score**.
-
-### ML Pipeline
+### Backend
 
 ```text
-Wildlife Detection
-       +
-Historical Data
-       +
-Spatial Features
-       +
-Temporal Features
-       +
-Environmental Context
-       ↓
-    XGBoost
-       ↓
- Conflict Risk Score
+FastAPI
+   ↓
+Uvicorn
+   ↓
+Render Web Service
+   ↓
+YOLO Inference
 ```
-
-This allows KAVACH to move beyond:
-
-**"An animal was detected."**
-
-towards:
-
-**"This detection may indicate an increased conflict risk in this area."**
 
 ---
 
-# 🗺️ 3. GIS & Geospatial Intelligence
+# 🔐 Environment Configuration
 
-The risk score becomes significantly more useful when connected to geography.
+Production configuration should be handled through environment variables rather than committing secrets to GitHub.
 
-KAVACH uses **PostgreSQL/PostGIS**, **GeoPandas**, and **Leaflet/Mapbox** to process and visualize wildlife activity and potential risk hotspots.
-
-GIS enables the platform to answer:
-
-> **Where exactly is the potential conflict risk?**
-
-### GIS Pipeline
+Example configuration:
 
 ```text
-Risk Score
-    ↓
-Geospatial Processing
-    ↓
-GIS Hotspot Identification
-    ↓
-Location-Specific Risk
-    ↓
-Interactive Map
+ENVIRONMENT=production
+MODEL_PATH=...
+DEVICE=cpu
+WILDLIFE_CONFIDENCE_THRESHOLD=...
 ```
 
-The system can visualize wildlife activity and identify **actionable GIS hotspots** for prioritized monitoring.
+Firebase service-account credentials should also be stored securely through the deployment platform.
 
----
-
-# 📊 4. Historical + Spatial + Environmental Context
-
-KAVACH does not treat every wildlife detection equally.
-
-A detection becomes more meaningful when combined with its surrounding context.
-
-The platform integrates:
-
-### Historical Context
-
-* Previous wildlife sightings
-* Historical conflict records
-
-### Spatial Context
-
-* Geographic location
-* Wildlife activity areas
-* Potential conflict hotspots
-
-### Environmental Context
-
-* Environmental conditions
-* Temporal patterns
-* Relevant contextual information
-
-This context helps the ML system calculate a more meaningful risk score rather than relying only on the presence of an animal.
-
----
-
-# 🚨 5. Early Action
-
-Once a risk score and GIS hotspot are generated, KAVACH can support:
-
-* Risk alerts
-* Monitoring priorities
-* Prioritized patrols
-* Conflict prevention
-* Resource allocation
-* Conservation planning
-
-The platform is designed as a **decision-support system** where KAVACH provides risk intelligence while conservation professionals make the final decisions.
-
----
-
-# 🔥 What Makes KAVACH Different?
-
-Most wildlife monitoring systems primarily answer:
-
-> **"What animal was detected?"**
-
-KAVACH goes one step further.
-
-It asks:
-
-> **"What does this detection mean for future conflict, where is the risk, and where should authorities focus?"**
-
-### Traditional Approach
+**Never commit:**
 
 ```text
-Detect
-  ↓
-Report
-  ↓
-Respond
+serviceAccountKey.json
 ```
 
-### KAVACH
+or other private credentials to the repository.
+
+---
+
+# 🛡️ Safety & Reliability
+
+KAVACH is designed as a **decision-support system**, not an autonomous authority.
+
+AI detections should be verified before critical operational action.
+
+The system should therefore be used with:
+
+* Human verification
+* Confidence thresholds
+* Multiple-frame confirmation where applicable
+* Incident verification
+* Authorized personnel
+* Appropriate field procedures
+
+AI predictions should not be treated as guaranteed ground truth.
+
+---
+
+# 🎯 Key Features
+
+### 🤖 AI
+
+* YOLO-based object detection
+* Confidence-based filtering
+* Wildlife classification
+* Model health monitoring
+
+### 🖥️ Dashboard
+
+* Command Center
+* Detection Hub
+* Incident monitoring
+* System status
+* Device monitoring
+
+### 🗺️ GIS
+
+* Interactive map
+* Location visualization
+* Wildlife activity monitoring
+* Hotspot-oriented interface
+
+### 🚨 Alerts
+
+* Alert workflow
+* Test alert
+* Emergency notification architecture
+* Siren workflow
+* Mobile device interface
+
+### ⚙️ Backend
+
+* FastAPI
+* REST APIs
+* AI inference
+* Database services
+* Health monitoring
+
+---
+
+# 🌱 Future Development
+
+KAVACH can be extended with:
+
+* 🐅 Larger wildlife-specific training datasets
+* 📷 Real CCTV / RTSP gateway integration
+* 📡 IoT sensor integration
+* 📱 Dedicated mobile application
+* 🔥 Production Firebase notification configuration
+* 🛰️ Satellite imagery integration
+* 🐾 GPS/collar data integration
+* 🧠 Improved wildlife classification models
+* 📊 Advanced historical analytics
+* 🌍 Multi-reserve deployment
+* ☁️ Scalable production database
+* 🔐 Role-based access control
+* 📈 Advanced risk prediction models
+
+---
+
+# 🧪 Current MVP Status
+
+| Component                   | Status                     |
+| --------------------------- | -------------------------- |
+| React Frontend              | ✅ Deployed                 |
+| FastAPI Backend             | ✅ Deployed                 |
+| YOLO Model                  | ✅ Online                   |
+| SQLite Database             | ✅ Online                   |
+| GIS Interface               | ✅ Available                |
+| Detection Interface         | ✅ Available                |
+| Alert Architecture          | ✅ Available                |
+| Firebase Integration        | ⚠️ Credentials Pending     |
+| Direct Production RTSP CCTV | ⚠️ Requires Camera Gateway |
+| Large Wildlife Model        | 🔄 Future Improvement      |
+| Satellite Data              | 🔄 Future Scope            |
+
+---
+
+# 🏆 Why KAVACH?
+
+KAVACH is designed around a simple operational idea:
 
 ```text
-Detect
-  ↓
-Analyze
-  ↓
-Predict
-  ↓
-Map
-  ↓
-Prevent
+        DETECT
+           ↓
+        ANALYZE
+           ↓
+         ALERT
+           ↓
+        RESPOND
+           ↓
+        PROTECT
 ```
 
-This is the core innovation of KAVACH:
-
-### **From Reactive Detection → Predictive Prevention**
-
-KAVACH closes the gap between **AI detection and real-world decision-making** by combining Computer Vision, Predictive ML and GIS intelligence.
+The goal is to connect AI-based wildlife detection with monitoring, geographical context, and emergency communication in one platform.
 
 ---
 
-# 🏗️ System Architecture
+# 👥 Team
 
-```text
-                 CAMERA TRAPS
-                      │
-                      ▼
-               YOLO / CNN
-             Species Detection
-                      │
-                      ▼
-             Historical + Spatial
-            + Temporal Features
-                      │
-                      ▼
-                  XGBoost
-             Risk Prediction
-                      │
-                      ▼
-             PostgreSQL / PostGIS
-              Geospatial Data
-                      │
-                      ▼
-            Leaflet / Mapbox
-             GIS Visualization
-                      │
-                      ▼
-                  FastAPI
-             Backend / API Layer
-                      │
-                      ▼
-                 Next.js
-              Conservation UI
-                      │
-                      ▼
-          ┌─────────────────────┐
-          │  Risk Insights      │
-          │  GIS Hotspots       │
-          │  Alerts             │
-          │  Monitoring Priority│
-          └─────────────────────┘
-```
+### KAVACH — Hackathon Project
 
-The architecture and technology stack are based on the system design presented in the project presentation.
+**Team Leader**
+
+* Saurav Kumar
+
+**Team Members**
+
+* Sumant Kumar Raut
+* Sahil Kumar
+* Rishav Kumar
+* Suryavansh Thakur
 
 ---
 
-# ⚙️ Technology Stack
+# 📌 Project Information
 
-| Layer                 | Technology               | Purpose                            |
-| --------------------- | ------------------------ | ---------------------------------- |
-| Computer Vision       | **YOLO / CNN**           | Wildlife species detection         |
-| Deep Learning         | **PyTorch / TensorFlow** | Computer vision model support      |
-| Machine Learning      | **XGBoost**              | Conflict-risk prediction           |
-| Programming           | **Python**               | ML and data processing             |
-| Database              | **PostgreSQL**           | Data storage                       |
-| Geospatial Database   | **PostGIS**              | Spatial data processing            |
-| Geospatial Processing | **GeoPandas**            | GIS data processing                |
-| Maps                  | **Leaflet / Mapbox**     | GIS visualization                  |
-| Backend               | **FastAPI**              | APIs, inference & data processing  |
-| Frontend              | **Next.js + TypeScript** | Interactive conservation dashboard |
+**Project:** KAVACH — Wildlife Early Warning & Alert Network
 
----
+**Category:** Artificial Intelligence / Computer Vision / Wildlife Monitoring
 
-# 🌲 Who Can Use KAVACH?
+**Primary Technologies:** React, TypeScript, Vite, Python, FastAPI, YOLO, PyTorch, SQLite, Firebase, GIS
 
-KAVACH is designed to support:
+**Deployment:** Render
 
-### Forest Departments
+**Repository:**
 
-* Monitoring
-* Resource allocation
-* Identification of priority areas
-
-### Wildlife Rangers
-
-* Risk-based patrol prioritization
-* Location-specific intelligence
-
-### Conservation Authorities
-
-* Conflict prevention
-* Conservation planning
-
-### Researchers & Conservationists
-
-* Wildlife activity analysis
-* Spatial analysis
-* Understanding potential conflict patterns
-
-These target users and their intended benefits are defined in the project proposal.
+https://github.com/Sumant70/KAVACH-Wildlife-Intelligence
 
 ---
 
-# 🌍 Real-World Impact
+# 🔗 Links
 
-KAVACH has the potential to improve wildlife conservation by helping authorities shift from **incident-driven response** to **data-driven prevention**.
+### 🌐 Live KAVACH Application
 
-### 🛡️ Community Safety
+https://kavach-frontend-qkri.onrender.com
 
-Identifying potential conflict hotspots can help authorities prioritize areas where human-wildlife interactions may become dangerous.
+### ⚙️ Backend API
 
-### 🌾 Livelihood Protection
+https://kavach-api-i2pt.onrender.com
 
-Better identification of conflict-prone areas can support preventive action around communities and agricultural regions.
+### 💻 GitHub Repository
 
-### 🐅 Wildlife Protection
-
-Understanding wildlife activity and movement patterns can help reduce harmful human-wildlife interactions.
-
-### 👮 Better Resource Allocation
-
-Instead of monitoring every region equally, authorities can focus resources on areas with higher predicted risk.
-
-### 📍 Location-Specific Decisions
-
-GIS allows risk intelligence to be connected directly to geographical locations.
-
-### ⚡ Earlier Intervention
-
-The objective is to identify emerging risk **before an incident occurs**, enabling proactive conservation action.
+https://github.com/Sumant70/KAVACH-Wildlife-Intelligence
 
 ---
 
-# 📈 Scalability
+# 📜 License
 
-KAVACH is designed to scale from a focused camera-trap MVP into a broader wildlife intelligence platform.
+This project was developed as a hackathon and academic prototype.
 
-Future data sources can include:
-
-* GPS data from collared animals
-* IoT / sensor feeds
-* Additional Computer Vision models
-* Satellite imagery
-* More wildlife datasets
-* Real-time feeds
-
-The platform can eventually expand from a single conservation zone to **multiple wildlife reserves and regions**, improving comparative analysis and prediction quality over time.
-
----
-
-# 🚀 Future Scope
-
-The platform can be extended with:
-
-* 📱 Mobile application for forest rangers
-* 📡 Real-time sensor feeds
-* 🛰️ Satellite imagery
-* 🐾 GPS data from collared animals
-* 📷 Larger camera-trap networks
-* 🤖 Improved animal movement prediction
-* 🌍 Multi-region deployment
-* 🔔 Advanced real-time alerts
-* 📊 More historical and environmental data
-
-As more data becomes available, the system can improve its understanding of **animal movement and potential conflict patterns**.
-
----
-
-# 🔧 Feasibility
-
-KAVACH is designed as a focused **decision-support MVP** that can be prototyped without specialized hardware or large deployment infrastructure.
-
-The proposed MVP consists of:
-
-```text
-Camera-Trap Detection
-        +
-Risk Prediction
-        +
-GIS
-        +
-Alerts
-```
-
-The architecture is modular, meaning detection, risk prediction, GIS visualization and alerts can be developed and integrated independently.
-
-KAVACH is also **human-in-the-loop**: the system provides risk insights, while conservation professionals make final operational decisions.
-
----
-
-# 🧠 Complete KAVACH Intelligence Flow
-
-```text
-        WILDLIFE DATA
-             │
-             ▼
-      CAMERA-TRAP IMAGES
-             │
-             ▼
-       YOLO / CNN
-             │
-             ▼
-     SPECIES DETECTION
-             │
-             ▼
- ┌──────────────────────────┐
- │ Historical Data          │
- │ Spatial Data             │
- │ Temporal Data            │
- │ Environmental Context   │
- └────────────┬─────────────┘
-              │
-              ▼
-           XGBoost
-              │
-              ▼
-       CONFLICT RISK SCORE
-              │
-              ▼
-        POSTGIS / GIS
-              │
-              ▼
-       GIS RISK HOTSPOT
-              │
-              ▼
-       PRIORITIZED ACTION
-              │
-              ▼
-      EARLY WARNING / ALERT
-              │
-              ▼
-          PREVENTION
-```
-
----
-
-# 🏆 Core Vision
-
-KAVACH combines:
-
-### **Computer Vision**
-
-to understand **what is happening**
-
-### **Machine Learning**
-
-to estimate **what may happen**
-
-### **GIS**
-
-to understand **where it may happen**
-
-### **Historical & Environmental Data**
-
-to understand **why the risk may exist**
-
-### **Early Alerts**
-
-to support **what action should be taken**
+If the project is later distributed as open-source software, an appropriate open-source license can be added.
 
 ---
 
 # 🛡️ KAVACH
 
-## **DETECT → PREDICT → PREVENT**
+## **DETECT • ANALYZE • ALERT • PROTECT**
 
-> **Know where wildlife is. Predict where conflict may happen next.**
+> **AI-powered wildlife monitoring for faster awareness and smarter response.**
 
-KAVACH aims to transform fragmented wildlife observations into **predictive, geospatial and actionable conservation intelligence** — helping authorities identify emerging risk areas, prioritize monitoring and move toward proactive wildlife conflict prevention.
-
----
-
-## 📑 Presentation
-
-**[📥 Open KAVACH Project Presentation — TWOPOINTERS.pdf](./TWOPOINTERS.pdf)**
-
-## 🌐 Live Application
-
-**[🚀 Open KAVACH Live Demo](https://infinity-hack-git-main-rahul810840-5774s-projects.vercel.app/)**
-
-## 🎥 Project Demo
-
-**▶️ Watch the KAVACH Project Demo on YouTube**
-
-[📺 Watch KAVACH Demo](https://youtu.be/L-eRB-yD1-I?si=ehaydnY2iW-rAbGb)
-
-A short demonstration of the KAVACH wildlife detection and conflict-prevention platform.
-
-📜 License
-
-This project was developed as a hackathon/academic prototype.
-Add an appropriate open-source license if the repository is intended for public reuse.
 
