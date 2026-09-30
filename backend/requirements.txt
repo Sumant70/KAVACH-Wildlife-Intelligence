@@ -24,3 +24,5 @@ numpy
 # fails to install/import, /predict and /risk keep working and only
 # the /gis/* routes are disabled.
 psycopg2-binary
+
+firebase-admin
