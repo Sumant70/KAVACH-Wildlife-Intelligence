@@ -50,6 +50,7 @@ export const API_BASE_URL = (
 ).replace(/\/+$/, "");
 
 const NAV_ITEMS = [
+  { id: "landing", label: "Home / Overview", icon: TreePine },
   { id: "command", label: "Dashboard", icon: LayoutGrid },
   { id: "wildlife", label: "AI Detection", icon: Camera },
   { id: "detection_hub", label: "Detection Hub", icon: Target },
@@ -68,13 +69,12 @@ const NAV_ITEMS = [
   { id: "analytics", label: "Analytics", icon: BarChart3 },
   { id: "architecture", label: "Architecture", icon: GitBranch },
   { id: "demo", label: "Demo Pipeline", icon: Play },
-  { id: "landing", label: "Home Overview", icon: TreePine }
 ];
 
 
 export default function KavachApp() {
-  // Default to command center dashboard on localhost
-  const [activeTab, setActiveTab] = useState("command");
+  // Opens on Home/Overview by default
+  const [activeTab, setActiveTab] = useState("landing");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userRole, setUserRole] = useState("FOREST_DEPARTMENT"); // "ADMIN" | "FOREST_DEPARTMENT" | "FOREST_GUARD" | "VILLAGER"
 
@@ -85,7 +85,7 @@ export default function KavachApp() {
     } else if (newRole === "FOREST_GUARD") {
       setActiveTab("field_guard");
     } else if (newRole === "FOREST_DEPARTMENT") {
-      setActiveTab("command");
+      setActiveTab("landing");
     }
   };
 
@@ -384,7 +384,7 @@ export default function KavachApp() {
         }}
       >
         {/* Left: Brand Identity Logo */}
-        <div onClick={() => setActiveTab("command")} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 10 }}>
+        <div onClick={() => setActiveTab("landing")} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 10 }}>
           <KavachLogo size="default" />
         </div>
 
