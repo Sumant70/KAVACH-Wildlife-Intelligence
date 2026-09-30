@@ -1,0 +1,47 @@
+node_modules/
+.env
+.env.*
+!.env.example
+
+__pycache__/
+*.pyc
+
+# Firebase secrets — NEVER commit these
+**/serviceAccountKey.json
+**/*firebase-adminsdk*.json
+**/*firebase-credentials*.json
+**/*firebase-service-account*.json
+
+# Local database (runtime state — not for version control)
+backend/kavach.db
+
+# ML model files (large binary — use separate model registry or cloud storage)
+backend/**/*.pt
+backend/**/*.pkl
+# Root-level model files
+/yolov8n.pt
+
+# Training datasets / generated data
+backend/kavach_dataset/
+backend/kavach_cleaned_dataset/
+backend/kavach_5class_dataset/
+backend/kavach_5class_balanced/
+backend/models/
+backend/uploads/
+scratch/
+
+# Python generated files
+*.pyc
+*.pyo
+
+# Build output
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.log
+
+# IMPORTANT: Do NOT ignore *.json globally — it blocks package.json, vercel.json, etc.
+# Only ignore specific Python-generated JSON output files if needed:
+# backend/some_output.json

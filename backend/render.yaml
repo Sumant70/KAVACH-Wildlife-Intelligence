@@ -1,0 +1,46 @@
+# Render deployment configuration for KAVACH FastAPI backend
+# https://render.com/docs/yaml-spec
+#
+# Usage:
+#   1. Push this file to your GitHub repository
+#   2. In Render → New Web Service → connect repo → Render auto-detects render.yaml
+#   3. Set secret environment variables in Render dashboard (not here)
+
+services:
+  - type: web
+    name: kavach-api
+    runtime: python
+    region: singapore          # Choose: oregon, frankfurt, singapore, ohio
+    plan: free                 # free | starter | standard | pro
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn predict:app --host 0.0.0.0 --port $PORT --app-dir backend
+    healthCheckPath: /health
+    
+    envVars:
+      # ── Required ─────────────────────────────────────────────────────────
+      - key: ENVIRONMENT
+        value: production
+      
+      # ── CORS — set to your Vercel frontend domain ─────────────────────
+      - key: ALLOWED_ORIGINS
+        value: https://YOUR-FRONTEND-APP.vercel.app   # ← CHANGE THIS
+      
+      # ── Firebase Admin SDK credentials (choose ONE method below) ──────
+      # Option A: Inline JSON (recommended for Render — use "secret" type)
+      - key: FIREBASE_SERVICE_ACCOUNT_JSON
+        sync: false    # Never auto-sync — set manually in Render dashboard
+      
+      # ── YOLO Model Path ───────────────────────────────────────────────
+      # IMPORTANT: The .pt model file is NOT in Git (it's in .gitignore).
+      # Options to make it available on Render:
+      #   1. Use a Render Disk (persistent storage) and set MODEL_PATH
+      #   2. Use a startup script to download from cloud storage
+      #   3. Include a smaller model and retrain or fine-tune
+      - key: MODEL_PATH
+        value: backend/best.pt     # ← adjust to actual filename
+      
+      # ── Optional ──────────────────────────────────────────────────────
+      - key: WILDLIFE_CONFIDENCE_THRESHOLD
+        value: "0.35"
+      - key: DEVICE
+        value: cpu                 # Render free tier has no GPU
